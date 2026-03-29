@@ -2,7 +2,12 @@
 
 ## Workflow
 
-Always run the `/commit` command at the end of every turn that produces code changes.
+When making code changes:
+
+1. Add or update tests to cover your changes. Ensure all new code paths have test coverage.
+2. Run `npm test` to verify all tests pass.
+3. Run `npm run lint` to verify there are no lint or formatting errors.
+4. Run `/commit` to commit the changes.
 
 ## Commands
 

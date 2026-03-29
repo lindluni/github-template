@@ -18,9 +18,10 @@ vi.mock("next-themes", () => ({
 }));
 
 const mockSocialSignIn = vi.fn();
+const mockUseSession = vi.fn(() => ({ data: null, isPending: false }));
 vi.mock("@/lib/auth-client", () => ({
     authClient: {
-        useSession: () => ({ data: null, isPending: false }),
+        useSession: (...args: unknown[]) => mockUseSession(...args),
         signIn: {
             social: (...args: unknown[]) => mockSocialSignIn(...args),
         },
@@ -63,6 +64,14 @@ describe("Home (login page)", () => {
         render(<Home />);
         expect(
             screen.getByRole("button", { name: /toggle theme/i }),
+        ).toBeInTheDocument();
+    });
+
+    it("renders accessible loading spinner when session is pending", () => {
+        mockUseSession.mockReturnValueOnce({ data: null, isPending: true });
+        render(<Home />);
+        expect(
+            screen.getByRole("status", { name: /loading/i }),
         ).toBeInTheDocument();
     });
 });

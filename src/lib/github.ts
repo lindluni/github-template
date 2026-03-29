@@ -47,6 +47,9 @@ export async function fetchUserRepos(
     );
 
     if (!response.ok) {
+        console.error(
+            `GitHub API error: ${response.status} ${response.statusText}`,
+        );
         return [];
     }
 
